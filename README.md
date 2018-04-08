@@ -3,6 +3,7 @@ Fundamentos Matemáticos de la Computación: Proyecto 1 - Simular una Máquina d
 
 ## Comentarios:
 * Se nos proporcionó:
+
 	  * La cinta con 0's y 1's en ASCII
 	  * La máquina de estados en 2 dimensiones
 	  * La posición de la cabeza
@@ -11,7 +12,9 @@ Fundamentos Matemáticos de la Computación: Proyecto 1 - Simular una Máquina d
 
 * Debemos:
 	  1. Crear la clase UTM (*Universal Turing Machine*)
+
 	    * Argumentos:
+
 		      * TT: Descripción de la MT en Binario-ASCII (La "tabla" de estados)
 		      * Cinta: Contenido de la cinta en Binario-ASCII para una MT simulada
 		      * N: Número máximo de transiciones
