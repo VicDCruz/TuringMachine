@@ -24,14 +24,14 @@ public class UTM {
 		int posicionActual = P;
 		String[] nextStep;
 		String estadoActual = "0";
-		String transformedTape = TT;
+		String transformedTape = Tape;
 		boolean halt = false;
 		StateTable states = new StateTable(TT);
 
 		while(count <= N && !halt) {
-			nextStep = states.nextStep(Tape.charAt(posicionActual),Integer.parseInt(estadoActual));
-
-			transformedTape = Tape.substring(0,posicionActual) + nextStep[0] + Tape.substring(posicionActual+1);
+			nextStep = states.nextStep(transformedTape.charAt(posicionActual),Integer.parseInt(estadoActual));
+			
+                        transformedTape = transformedTape.substring(0,posicionActual) + nextStep[0] + transformedTape.substring(posicionActual+1);
 
 			if(nextStep[1].equals("R")) {
 				posicionActual = posicionActual+1;				 
@@ -53,9 +53,15 @@ public class UTM {
 
     /**
      * @param args the command line arguments
+     * Main de prueba
      */
-    public static void main(String[] args) {
-        
-    }
+//    public static void main(String[] args) {
+//        String TT = "100000010000000010000010000000001011111100000000";
+//        String tape = "000000000000000000000000000000000000000000000000000000";
+//        int trans = 1000;
+//        int pos = 4;
+//        String resultado = UTM.NewTape(TT,tape,trans,pos);
+//        System.out.println(resultado);
+//    }
     
 }
