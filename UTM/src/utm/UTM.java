@@ -30,21 +30,29 @@ public class UTM {
 
 		while(count <= N && !halt) {
 			nextStep = states.nextStep(transformedTape.charAt(posicionActual),Integer.parseInt(estadoActual));
-			
-                        transformedTape = transformedTape.substring(0,posicionActual) + nextStep[0] + transformedTape.substring(posicionActual+1);
+			transformedTape = transformedTape.substring(0,posicionActual) + nextStep[0] + transformedTape.substring(posicionActual+1);
 
 			if(nextStep[1].equals("R")) {
-				posicionActual = posicionActual+1;				 
+				if(posicionActual == transformedTape.length)
+				{
+					posicionActual = 0;
+				} else {
+					posicionActual = posicionActual+1;
+				}
 			} else {
-				posicionActual = posicionActual-1;
+				if(posicionActual == -1) {
+					posicionActual = transformedTape.length;
+				} else {
+					posicionActual = posicionActual-1;
+				}
 			}
 
 			estadoActual = nextStep[2];
 
 			if(estadoActual.equals("H")){
 				halt = true;
-			} 
-			
+			}
+
 			count++;
 		}
 
@@ -63,5 +71,5 @@ public class UTM {
 //        String resultado = UTM.NewTape(TT,tape,trans,pos);
 //        System.out.println(resultado);
 //    }
-    
+
 }
