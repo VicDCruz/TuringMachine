@@ -10,7 +10,6 @@ package utm;
  * @author marco
  */
 public class UTM {
-
     /**
      * Regresa el próximo estado dado el estado actual y el bit que se recibe
      * @param TT Descripcion de la Máquina de Turing
@@ -19,18 +18,24 @@ public class UTM {
      * @param P Posición de la cabeza
      * @return Cinta transformada
      */
-	public static String NewTape(String TT,String Tape,int N,int P){
+	public static String[] NewTape(String TT,String Tape,int N,int P){
 		int count = 0;
 		int posicionActual = P;
+		int productividad = 0;
 		String[] nextStep;
 		String estadoActual = "0";
 		String transformedTape = Tape;
+                String msg;
 		boolean halt = false;
 		StateTable states = new StateTable(TT);
 
 		while(count <= N && !halt) {
 			nextStep = states.nextStep(transformedTape.charAt(posicionActual),Integer.parseInt(estadoActual));
 			transformedTape = transformedTape.substring(0,posicionActual) + nextStep[0] + transformedTape.substring(posicionActual+1);
+
+			if(nextStep[0].equals("1")) {
+				productividad++;
+			}
 
 			if(nextStep[1].equals("R")) {
 				if(posicionActual == transformedTape.length()-1)
@@ -56,7 +61,16 @@ public class UTM {
 			count++;
 		}
 
-		return transformedTape;
+		if(halt) {
+			msg = "Se alcanzó estado HALT.\n";
+		}else {
+			msg = "No se alcanzó estado HALT.\n";
+		}
+
+		msg = msg + "Se realizaron " + count + "transiciones. \n" + "La productividad fue de " + productividad + ".\n";
+
+		String[] resultado = {transformedTape, msg};
+		return resultado;
 	}
 
     /**

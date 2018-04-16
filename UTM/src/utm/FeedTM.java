@@ -267,9 +267,11 @@ class FeedTM{
                 }//endIf
                 break;				// Exit While
             }//endWhile
-             String NuevaCinta=UTM.NewTape(TT,Cinta,N,P);
+             String[] respuesta=UTM.NewTape(TT,Cinta,N,P);
+             String NuevaCinta=respuesta[0];
              PrintStream PProc=new PrintStream(new FileOutputStream(new File("Procesada.doc")));
              PProc.println(NuevaCinta);
+             System.out.println(respuesta[1]);
              System.out.println("\nNueva cinta esta en \"Procesada.doc\"");
         }//endFor
     }//endMain

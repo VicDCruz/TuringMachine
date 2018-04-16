@@ -52,7 +52,8 @@ public class UTMTest {
         int N = 1000;
         int P = 4;
         String expResult = "000011100000000000000000000000000000000000000000000000";
-        String result = UTM.NewTape(TT, Tape, N, P);
+        String[] respuesta = UTM.NewTape(TT, Tape, N, P);
+        String result = respuesta[0];
         assertEquals(expResult, result);
         
         TT = "10000001010000101000001010000011110000000000000100000100101111111100001010000000";
@@ -60,7 +61,8 @@ public class UTMTest {
         N = 100;
         P = 4;
         expResult = "001101110111010010101000000000000000000000000000000000";
-        result = UTM.NewTape(TT, Tape, N, P);
+        respuesta = UTM.NewTape(TT, Tape, N, P);
+        result = respuesta[0];
         assertEquals(expResult, result);
         
         // Máquina del PDF de computabilidad
@@ -69,7 +71,8 @@ public class UTMTest {
         N = 1000;
         P = 4;
         expResult = "111011110101010101010101010101010101010101010101111111";
-        result = UTM.NewTape(TT, Tape, N, P);
+        respuesta = UTM.NewTape(TT, Tape, N, P);
+        result = respuesta[0];
         assertEquals(expResult, result);
     }
 
