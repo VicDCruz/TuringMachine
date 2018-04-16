@@ -31,11 +31,14 @@ public class UTM {
 
 		while(count <= N && !halt) {
 			nextStep = states.nextStep(transformedTape.charAt(posicionActual),Integer.parseInt(estadoActual));
+                        
+                        if(nextStep[0].equals("1") && transformedTape.charAt(posicionActual) == '0') {
+                            productividad++;
+			} else if(nextStep[0].equals("0") && transformedTape.charAt(posicionActual) == '1') {
+                            productividad--;
+                        }
+                        
 			transformedTape = transformedTape.substring(0,posicionActual) + nextStep[0] + transformedTape.substring(posicionActual+1);
-
-			if(nextStep[0].equals("1")) {
-				productividad++;
-			}
 
 			if(nextStep[1].equals("R")) {
 				if(posicionActual == transformedTape.length()-1)
@@ -67,7 +70,7 @@ public class UTM {
 			msg = "No se alcanzó estado HALT.\n";
 		}
 
-		msg = msg + "Se realizaron " + count + "transiciones. \n" + "La productividad fue de " + productividad + ".\n";
+		msg = msg + "Se realizaron " + count + " transiciones. \n" + "La productividad fue de " + productividad + ".\n";
 
 		String[] resultado = {transformedTape, msg};
 		return resultado;
