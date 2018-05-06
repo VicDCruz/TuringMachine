@@ -1,15 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package utm;
+package mx.itam.fmc.utm;
 
-/**
- *
- * @author marco
- */
-public class UTM {
+class UTM {
     /**
      * Regresa el próximo estado dado el estado actual y el bit que se recibe
      * @param TT Descripcion de la Máquina de Turing
@@ -65,9 +56,9 @@ public class UTM {
 		}
 
 		if(halt) {
-			msg = "Se alcanzó estado HALT.\n";
+			msg = "Se alcanzo estado HALT.\n";
 		}else {
-			msg = "No se alcanzó estado HALT.\n";
+			msg = "No se alcanzo estado HALT.\n";
 		}
 
 		msg = msg + "Se realizaron " + count + " transiciones. \n" + "La productividad fue de " + productividad + ".\n";
@@ -93,3 +84,4 @@ public class UTM {
 //    }
 
 }
+

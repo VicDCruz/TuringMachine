@@ -24,3 +24,5 @@ node_modules
 /UTM/build/
 
 Procesada.doc
+/UTM/dist/
+/.metadata/
