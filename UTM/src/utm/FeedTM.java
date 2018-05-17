@@ -1,8 +1,6 @@
 /*
 *	Alimenta una M�quina de Turing
 */
-package utm;
-
 import java.io.*;
 
 class FeedTM{
