@@ -22,4 +22,7 @@ node_modules
 .sass-cache
 /UTM/nbproject/private/
 /UTM/build/
-/bin/
+
+Procesada.doc
+/UTM/dist/
+/.metadata/

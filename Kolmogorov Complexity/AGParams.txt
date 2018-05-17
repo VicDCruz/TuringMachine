@@ -1,0 +1,6 @@
+70		1) Individuos
+300		2) Número de transiciones
+500		3) Longitud de la Cinta
+1.000000		4)Pc
+0.050000		5)Pm
+100		6) Generaciones
