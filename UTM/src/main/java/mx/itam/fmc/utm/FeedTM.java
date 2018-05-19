@@ -1,5 +1,7 @@
+package mx.itam.fmc.utm;
+
 /*
-*	Alimenta una M�quina de Turing
+*	Alimenta una Maquina de Turing
 */
 import java.io.*;
 
@@ -265,10 +267,11 @@ class FeedTM{
                 }//endIf
                 break;				// Exit While
             }//endWhile
-             String NuevaCinta=UTM.NewTape(TT,Cinta,N,P);
-             PrintStream PProc=new PrintStream(new FileOutputStream(new File("Procesada.doc")));
-             PProc.println(NuevaCinta);
-             System.out.println("\nNueva cinta esta en \"Procesada.doc\"");
+            System.out.println("\n" + UTM.NewTape(TT,Cinta,N,P)[1]);
+            String NuevaCinta=UTM.NewTape(TT,Cinta,N,P)[0];
+            PrintStream PProc=new PrintStream(new FileOutputStream(new File("Procesada.doc")));
+            PProc.println(NuevaCinta);
+            System.out.println("\nNueva cinta esta en \"Procesada.doc\"");
         }//endFor
     }//endMain
 }//endClass

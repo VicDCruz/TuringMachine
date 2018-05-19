@@ -1,3 +1,5 @@
+package mx.itam.fmc.utm;
+
 class StateTable {
     private String[][] state;
 

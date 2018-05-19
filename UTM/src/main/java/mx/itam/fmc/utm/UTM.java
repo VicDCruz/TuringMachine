@@ -1,3 +1,5 @@
+package mx.itam.fmc.utm;
+
 class UTM {
     /**
      * Regresa el próximo estado dado el estado actual y el bit que se recibe

@@ -1,4 +1,4 @@
-/*	ESTE PROGRAMA TRATA DE ENCONTRAR LA MÁQUINA DE TURING QUE ESCRIBA EN UNA
+/*	ESTE PROGRAMA TRATA DE ENCONTRAR LA Mï¿½QUINA DE TURING QUE ESCRIBA EN UNA
  *	CINTA ORIGINALMENTE LGENA DE CEROS UNA CADENA IGUAL A LA QUE SE LE PROPORCIONA
  *	EN UN ARCHIVO BINARIO-ASCII
  */
@@ -11,7 +11,7 @@ class Kolmogorov {
   static int P,N,NN,N_2,L,L_2,FN=1,G,B2M,Nx2,iTmp;
   static String	Resp,TT;
   static double	Pc,	Pm;
-  static double	fTmp,W;					// WW --> Ponderación para Solos,Pares,Tríadas,Cuartetas
+  static double	fTmp,W;					// WW --> Ponderaciï¿½n para Solos,Pares,Trï¿½adas,Cuartetas
   static double	BestSingleMatches=-1;
   static double BestFitness=-1;
   static double lenTape;
@@ -19,18 +19,18 @@ class Kolmogorov {
   static int root;
   static Random RandN;
 //
-  static int maxN=250,minN=1;			// Número de individuos
-  static int maxNN=5000000,	minNN=1;	// Número de transiciones
+  static int maxN=250,minN=1;			// Nï¿½mero de individuos
+  static int maxNN=5000000,	minNN=1;	// Nï¿½mero de transiciones
   static int maxL=50000, minL=1;		// Longitud de la cinta
   static double	maxPc=1f, minPc=.01f;	// Probabilidad de cruza
-  static double	maxPm=1f, minPm=.001f;	// Probabilidad de mutación
-  static int maxG=10000, minG=1;		// Número de generaciones
+  static double	maxPm=1f, minPm=.001f;	// Probabilidad de mutaciï¿½n
+  static int maxG=10000, minG=1;		// Nï¿½mero de generaciones
   static double	maxW=1,	minW=0;			// Valores de W
 //
-  public static	String genoma [];
+  public static	String genoma[];
   public static	double fitness[];
   public static	BufferedReader Fbr,Kbr,Tbr;
-  
+
 /*
  *	LEE UNA CADENA HASTA EL PRIMER <TAB>
  *		A la entrada:	Buffered Reader
@@ -49,17 +49,17 @@ class Kolmogorov {
 
    public static void CreaParams() throws Exception {
 	  try {
-		Fbr=new BufferedReader(new InputStreamReader(new FileInputStream(new File("AGParams.txt"))));
+		    Fbr=new BufferedReader(new InputStreamReader(new FileInputStream(new File("AGParams.txt"))));
 	  }//endTry
 	  catch (Exception e){
 	    PrintStream Fps=new PrintStream(new FileOutputStream(new File("AGParams.txt")));
-		Fps.println("200\t\t1) Individuos");
-		Fps.println("50000\t\t2) Numero de transiciones");
-		Fps.println("1000\t\t3) Longitud de la cinta");
-		Fps.println("0.900\t\t4) Pc");
-		Fps.println("0.010\t\t5) Pm");
-		Fps.println("1000\t\t6) Generaciones");
-		Fps.println("0.5\t\t7) Ponderación");
+  		Fps.println("200\t\t1) Individuos");
+  		Fps.println("50000\t\t2) Numero de transiciones");
+  		Fps.println("1000\t\t3) Longitud de la cinta");
+  		Fps.println("0.900\t\t4) Pc");
+  		Fps.println("0.010\t\t5) Pm");
+  		Fps.println("1000\t\t6) Generaciones");
+  		Fps.println("0.5\t\t7) Ponderacion");
 	  }//endCatch
   }//endCreaParams
 
@@ -73,54 +73,54 @@ class Kolmogorov {
 	  Pc=Double.valueOf(LHT(Fbr)).floatValue();	// 4) Pc
 	  Pm=Double.valueOf(LHT(Fbr)).floatValue();	// 5) Pm
 	  G =Integer.parseInt(LHT(Fbr));			// 6) Generaciones
-	  W=Double.valueOf(LHT(Fbr)).floatValue();	// 7) Ponderación
+	  W=Double.valueOf(LHT(Fbr)).floatValue();	// 7) Ponderaciï¿½n
   }//endGetParams
 
- public static	void UpdateParams()	throws Exception {
-	PrintStream Fps=new PrintStream(new FileOutputStream(new File("AGParams.txt")));
-	Fps.println(N+"\t\t1) Individuos");
-	Fps.println(NN+"\t\t2) Número de transiciones");
-	Fps.println(L+"\t\t3) Longitud de la Cinta");
-	Fps.printf("%8.6f\t\t4)Pc",Pc);
-		Fps.println();
-	Fps.printf("%8.6f\t\t5)Pm",Pm);
-		Fps.println();
-	Fps.println(G+"\t\t6) Generaciones");
-	Fps.printf("%8.6f\t\t7) W",W);
-		Fps.println();
+  public static	void UpdateParams()	throws Exception {
+    PrintStream Fps=new PrintStream(new FileOutputStream(new File("AGParams.txt")));
+    Fps.println(N+"\t\t1) Individuos");
+    Fps.println(NN+"\t\t2) Nï¿½mero de transiciones");
+    Fps.println(L+"\t\t3) Longitud de la Cinta");
+    Fps.printf("%8.6f\t\t4)Pc",Pc);
+    Fps.println();
+    Fps.printf("%8.6f\t\t5)Pm",Pm);
+    Fps.println();
+    Fps.println(G+"\t\t6) Generaciones");
+    Fps.printf("%8.6f\t\t7) W",W);
+    Fps.println();
   }//endUpdateParams
-  
+
   public static	void DispParams() throws Exception {
-	System.out.println();
-	System.out.println("1) Numero de individuos:    "+ N);
-	System.out.println("2) Numero de transiciones:  "+ NN);
-	System.out.println("3) Long. de la cinta	    "+ L);
-	System.out.printf ("4) Prob. de cruzamiento:    %8.6f\n",Pc);
-	System.out.printf ("5) Prob. de mutacion:       %8.6f\n",Pm);
-	System.out.println("6) Numero de generaciones:  "+ G);
-	System.out.printf ("7) Factor de Ponderacion:   %8.6f\n",W);
+    System.out.println();
+    System.out.println("1) Numero de individuos:    "+ N);
+    System.out.println("2) Numero de transiciones:  "+ NN);
+    System.out.println("3) Long. de la cinta	    "+ L);
+    System.out.printf ("4) Prob. de cruzamiento:    %8.6f\n",Pc);
+    System.out.printf ("5) Prob. de mutacion:       %8.6f\n",Pm);
+    System.out.println("6) Numero de generaciones:  "+ G);
+    System.out.printf ("7) Factor de Ponderacion:   %8.6f\n",W);
   }//endDispParams
 
   public static	void CalcParams() {
-	N_2=N/2;
-	Nx2=N*2;
-	genoma = new String [Nx2];
-	fitness= new double [Nx2];
-	L_2=LG/2;
-	B2M=(int)((double)N*(double)LG*Pm);		//Bits to Mutate
+  	N_2=N/2;
+  	Nx2=N*2;
+  	genoma = new String [Nx2];
+  	fitness= new double [Nx2];
+  	L_2=LG/2;
+  	B2M=(int)((double)N*(double)LG*Pm);		//Bits to Mutate
   }//endCalcParams
 
   public static	void Modify() throws Exception {
-	Kbr	= new BufferedReader(new InputStreamReader(System.in));
+    Kbr	= new BufferedReader(new InputStreamReader(System.in));
   	String Resp;
-	while (true){
-		CalcParams();
-		DispParams();
-		System.out.print("\nModificar (S/N)? ");
-		Resp=Kbr.readLine().toUpperCase();
-		if (!Resp.equals("S")&!Resp.equals("N")) continue;
-		if (Resp.equals("N")) return;
-		if (Resp.equals("S")){
+	  while (true){
+      CalcParams();
+		  DispParams();
+  		System.out.print("\nModificar (S/N)? ");
+  		Resp=Kbr.readLine().toUpperCase();
+  		if (!Resp.equals("S")&!Resp.equals("N")) continue;
+  		if (Resp.equals("N")) return;
+  		if (Resp.equals("S")){
 			while (true){
 				System.out.print("Opcion No:       ");
 				int Opt;
@@ -146,7 +146,7 @@ class Kolmogorov {
 				System.out.println("Error en la opcion # "+Opt);
 			}//endWhile
 		}//endIf
-	}//endWhile
+	 }//endWhile
   }//endModify
 
   public static	void PoblacionInicial(double fitness[],	String genoma[]) throws	Exception{
@@ -171,7 +171,7 @@ class Kolmogorov {
 		fitness[N+i]=fitness[i];
 	}//endFor
   }//endCopia
-  
+
   public static	void Cruza(String genoma[]){
   	int N_i,P;
 	String LI,MI,RI,LN,MN,RN;
@@ -216,7 +216,7 @@ class Kolmogorov {
 		//}//endIf
 	}//endFor
   }//endMuta
-		 
+
   public static	void Evalua(double fitness[],String	genoma[]){
 	String Tape,NewTape;
 	for (int i=0;i<N;i++){
@@ -230,7 +230,7 @@ class Kolmogorov {
 				Maximum number of transitions
 					      |
 					Position of the Head at offset
-					   	  
+
 		Maximum 64 states (000000 - 111111)
 			State 111111 is HALT
 
@@ -241,7 +241,7 @@ class Kolmogorov {
 */
 		int PP=L/2; 					// UBICA LA CABEZA A LA MITAD DE LA CINTA
 /*
- *		La cinta inicial está Llena de 0s
+ *		La cinta inicial estï¿½ Llena de 0s
  */
 		Tape="0";for (int j=1;j<L;j++) Tape=Tape+"0";
 		NewTape=UTM_AG.NewTape(genoma[i],Tape,NN,PP);
@@ -278,8 +278,8 @@ class Kolmogorov {
   }//endSelecciona
 
 	public static void ShowTM(String STM) throws Exception {
-		/* 
-		 *	LEE TODOS LOS BYTES DE LA MÁQUINA DE TURING
+		/*
+		 *	LEE TODOS LOS BYTES DE LA Mï¿½QUINA DE TURING
 		 *
 		 */
 		int MTLen=STM.length();
@@ -338,7 +338,7 @@ class Kolmogorov {
  */
 		System.out.printf("\n\nAjuste maximo: %15.7f\n",fitness[0]);
 /*
- *		LA MEJOR MÁQUINA
+ *		LA MEJOR Mï¿½QUINA
  */
 		PrintStream TgtTMps=new PrintStream(new FileOutputStream(new File("TargetTM.txt")));
 		TgtTMps.println(genoma[0]);
@@ -394,7 +394,7 @@ class Kolmogorov {
 	 System.out.printf("GEN %8.0f\n",0f);
 	 Evalua(fitness,genoma);
 	 int First=1, Last=G;						//Evalua los primeros N
-	 lenTape=TT.length(); 
+	 lenTape=TT.length();
 	 while (true){
 		for (int i=First;i<Last;i++){
 			System.out.printf("GEN  %8.0f\tMatches %8.0f\n",(float)i,(float)BestSingleMatches);

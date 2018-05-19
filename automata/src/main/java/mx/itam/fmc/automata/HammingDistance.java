@@ -1,7 +1,5 @@
-package mx.itam.fmc.automata;
-
 public class HammingDistance {
-	
+
 	public static int getHD(String generated, String objective) {
 		int distance = 0;
 		if (generated.length() != objective.length()) {
