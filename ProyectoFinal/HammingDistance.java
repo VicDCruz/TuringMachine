@@ -15,6 +15,11 @@ public class HammingDistance {
 				distance++;
 			}
 		}
+
+		/////////////////////
+		System.out.println("La distancia entre las cadenas es: " + distance);
+		/////////////////////
+
 		return distance;
 	}
 

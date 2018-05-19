@@ -19,12 +19,6 @@ class FinalFundamentos {
     System.out.println("Inserte el nombre de archivo y extension que contiene la cadena meta:");
     try {
       TTFN = Kbr.readLine().toUpperCase();
-
-      ///////
-      System.out.println("Carga exitosa!");
-      System.out.println(TTFN);
-      ///////
-
     } catch (Exception e) {
       System.out.println("No se encontro ese archivo.");
     }
@@ -99,7 +93,7 @@ class FinalFundamentos {
   *generada.
   **/
   static double similaridad(String cintaAComparar) {
-    return 1 - (HammingDistance.getHD(cintaAComparar, cadenaMeta)/1024);
+    return 1 - (double)(HammingDistance.getHD(cintaAComparar, cadenaMeta)/(double)cadenaMeta.length());
   }
 
   /**
@@ -149,17 +143,19 @@ class FinalFundamentos {
     double maxCercania = -1000;
     String mutada, resultadoDeMTMutada, cintaDeCeros="";
 
-    /*
-    *Generamos una cadena llena de ceros con la extension de la cadena deseada.
-    */
-    for(int i = 0; i < cadenaMeta.length(); i++) {
-      cintaDeCeros = cintaDeCeros + "0";
-    }
-
     try {
         generaMaquinaInicial();
         cargaCadenaMeta();
+
+        /*
+         *Generamos una cadena llena de ceros con la extension de la cadena deseada.
+         */
+         for(int i = 0; i < cadenaMeta.length(); i++) {
+           cintaDeCeros = cintaDeCeros + "0";
+         }
+
         mutada = muta();
+        System.out.println(cadenaMeta);
         System.out.println(cintaDeCeros);
         System.out.println(mutada);
         System.out.println("Llego");
@@ -168,6 +164,8 @@ class FinalFundamentos {
         cercania = similaridad(resultadoDeMTMutada);
 
         if (cercania > maxCercania) {
+        	System.out.println(cercania);
+        	System.out.println(resultadoDeMTMutada);
           maxCercania = cercania;
           mejorMaquina = mutada;
           cadenaResultante = resultadoDeMTMutada;
