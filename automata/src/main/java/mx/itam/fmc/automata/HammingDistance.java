@@ -1,5 +1,9 @@
 public class HammingDistance {
 
+	/**
+	 * Funcion para comparar dos cadenas, la meta con la resultante,
+	 * para comprobar que tan buen resultado  entrega la MT simulada.
+	 */
 	public static int getHD(String generated, String objective) {
 		int distance = 0;
 		if (generated.length() != objective.length()) {
@@ -15,7 +19,6 @@ public class HammingDistance {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		System.out.println(getHD("00001000", "11101110"));
 	}
 
