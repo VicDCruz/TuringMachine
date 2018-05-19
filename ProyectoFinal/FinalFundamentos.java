@@ -1,71 +1,72 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 class FinalFundamentos {
-  static String[] mejorMaquina = new String[1024]; //Almacena la descripcion de la mejor MT que logra.
+  static String mejorMaquina = new String(); //Almacena la descripcion de la mejor MT que logra.
   static BufferedReader TF;
   static BufferedReader Kbr;
-  String cadenaResultante; //Almacana la producción de la mejor MT que logra.
-  String cadenaMeta; //Cadena a la que se busca llegar.
+  static String cadenaResultante; //Almacana la producción de la mejor MT que logra.
+  static String cadenaMeta = ""; //Cadena a la que se busca llegar.
+  static int L;
 
   /**
-  *Metodo para almacenar la cadena a la que queremos llegar-
+  *Metodo para almacenar la cadena a la que queremos llegar.
   **/
   static void cargaCadenaMeta() {
     Kbr=new BufferedReader(new InputStreamReader(System.in));
     String TTFN="";
     System.out.println("Inserte el nombre de archivo y extension que contiene la cadena meta:");
-    TTFN = Kbr.readLine().toUpperCase();
+    try {
+      TTFN = Kbr.readLine().toUpperCase();
+
+      ///////
+      System.out.println("Carga exitosa!");
+      System.out.println(TTFN);
+      ///////
+
+    } catch (Exception e) {
+      System.out.println("No se encontro ese archivo.");
+    }
     /*
     *Se intenta cargar cadena desde archivo seleccionado.
     */
     try {
         TF = new BufferedReader(new InputStreamReader(new FileInputStream(new File(TTFN))));
         System.out.println();
-        break;
+        cadenaMeta = TF.readLine();
+        //break;
     }//endTry
     catch (Exception e1){
         System.out.println("No se encontro \""+TTFN+"\"");
-        continue;
+        //continue;
     }//endCatch
 
-    cadenaMeta = TF.readLine();
+    L = cadenaMeta.length();
 
-    boolean forever = false, FF;
+    boolean FF;
     String caracter;
     int intCar;
     /*
     *Detectamos si el formato es valido.
     */
-    for (i=0; i<cadenaMeta.lenght(); i++){
-        caracter = TT.substring(i,i+1);
+    for (int i=0; i<cadenaMeta.length(); i++){
+        caracter = cadenaMeta.substring(i,i+1);
         //				System.out.println(i+") : "+Car);
         try {
-          intCar = Integer.parseInt(Car);
+          intCar = Integer.parseInt(caracter);
           FF = false;
         }
         catch (Exception e){
           FF = true;
+          intCar = -2; //Valor anormal para detectar error.
         }
         if ((intCar != 0 && intCar != 1) || FF){
-            System.out.println("Error en el formato de la Maquina de Turing");
+            System.out.println("Error en el formato de la cadena que se quiere generar.");
             System.out.println("Deben ser solamente \"0\" o \"1\"");
-            forever = true;
             break;	 	// Exit For
         }//endIf
     }//endFor
-
-    if (forever)
-        continue;
-    //endIf
-    if (cadenaMeta.length() % 16 != 0){
-        System.out.println("La longitud de la Maquina de Turing debe ser multiplo de 16");
-        continue;
-    }//endIf
   }
 
   /**
@@ -97,8 +98,8 @@ class FinalFundamentos {
   *Funcion para verifar que tan similares son la cadena objetivo y la cadena
   *generada.
   **/
-  double similaridad(String maquinaAComparar) {
-    return 1 - (HammingDistance.getHD(mejorMaquina, maquinaAComparar)/1024);
+  static double similaridad(String cintaAComparar) {
+    return 1 - (HammingDistance.getHD(cintaAComparar, cadenaMeta)/1024);
   }
 
   /**
@@ -110,7 +111,7 @@ class FinalFundamentos {
     while (M < 1 | M >= 1024) M = (int)(Math.random()*1024);
     for (int i=0; i<M; i++){
       int nBit=-1; while (nBit<0|nBit>=L) nBit=(int)(Math.random()*L); // BIT A MUTAR
-      if (nBit==0&SP) continue;	// NO MUTAR SI SOLO SON POSITIVOS
+      if (nBit==0) continue;	// NO MUTAR SI SOLO SON POSITIVOS
       String mBit="0";
       String G = mejorMaquina;
       // 1) SI EL BIT ESTA EN UN LUGAR INTERMEDIO
@@ -135,11 +136,44 @@ class FinalFundamentos {
       return respuesta;
   }//endMuta
 
+  /**
+  *Metodo para simular una el resultado de una MT determinada.
+  **/
+  static String simulaMaquina(String maquinaASimular, String cinta) {
+    return UTM.NewTape(maquinaASimular,cinta,2000,0); //Numero max de transiciones puede variar.
+  }
+
   public static void main(String[] args){
+    double cercania; //Almacena el porcentaje de cercania del mejor resutado
+                     //respecto al resultado meta.
+    double maxCercania = -1000;
+    String mutada, resultadoDeMTMutada, cintaDeCeros="";
+
+    /*
+    *Generamos una cadena llena de ceros con la extension de la cadena deseada.
+    */
+    for(int i = 0; i < cadenaMeta.length(); i++) {
+      cintaDeCeros = cintaDeCeros + "0";
+    }
+
     try {
         generaMaquinaInicial();
+        cargaCadenaMeta();
+        mutada = muta();
+        System.out.println(cintaDeCeros);
+        System.out.println(mutada);
+        System.out.println("Llego");
+        resultadoDeMTMutada = simulaMaquina(mutada,cintaDeCeros);
+        System.out.println(resultadoDeMTMutada);
+        cercania = similaridad(resultadoDeMTMutada);
+
+        if (cercania > maxCercania) {
+          maxCercania = cercania;
+          mejorMaquina = mutada;
+          cadenaResultante = resultadoDeMTMutada;
+        }
     } catch (FileNotFoundException ex) {
-        Logger.getLogger(Pruebita.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(FinalFundamentos.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
 }
