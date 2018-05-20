@@ -17,7 +17,7 @@ public class HammingDistance {
 		}
 
 		/////////////////////
-		System.out.println("La distancia entre las cadenas es: " + distance);
+		//System.out.println("La distancia entre las cadenas es: " + distance);
 		/////////////////////
 
 		return distance;

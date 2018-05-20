@@ -134,44 +134,69 @@ class FinalFundamentos {
   *Metodo para simular una el resultado de una MT determinada.
   **/
   static String simulaMaquina(String maquinaASimular, String cinta) {
-    return UTM.NewTape(maquinaASimular,cinta,2000,0); //Numero max de transiciones puede variar.
+    return UTM.NewTape(maquinaASimular,cinta,10000,0); //Numero max de transiciones puede variar.
   }
 
   public static void main(String[] args){
-    double cercania; //Almacena el porcentaje de cercania del mejor resutado
-                     //respecto al resultado meta.
+    double cercania = 0; //Almacena el porcentaje de cercania del mejor resutado
+                        //respecto al resultado meta.
     double maxCercania = -1000;
+    int iteracionLogroMaximo = -2;
     String mutada, resultadoDeMTMutada, cintaDeCeros="";
 
     try {
-        generaMaquinaInicial();
-        cargaCadenaMeta();
+      generaMaquinaInicial();
+      cargaCadenaMeta();
 
-        /*
-         *Generamos una cadena llena de ceros con la extension de la cadena deseada.
-         */
-         for(int i = 0; i < cadenaMeta.length(); i++) {
-           cintaDeCeros = cintaDeCeros + "0";
-         }
+      System.out.println("La cadena esperada es: " + cadenaMeta + "\n");
+
+      /*
+      *Generamos una cadena llena de ceros con la extension de la cadena deseada.
+      */
+      for(int i = 0; i < cadenaMeta.length(); i++) {
+        cintaDeCeros = cintaDeCeros + "0";
+      }
+
+      int MAX_ITERACIONES = 30000;
+      int contadorIteraciones = 1;
+
+      while(cercania != 1 && contadorIteraciones <= MAX_ITERACIONES) {
+        //System.out.print("."); //Para hacer ver al usuario que seguimos computando.
 
         mutada = muta();
-        System.out.println(cadenaMeta);
-        System.out.println(cintaDeCeros);
-        System.out.println(mutada);
-        System.out.println("Llego");
+        //System.out.println(cintaDeCeros);
+        //System.out.println(mutada);
+        //System.out.println("Llego");
+
+        //System.out.print(".");
+
         resultadoDeMTMutada = simulaMaquina(mutada,cintaDeCeros);
-        System.out.println(resultadoDeMTMutada);
+        System.out.println("Resultado a partir de MT mutada: " + resultadoDeMTMutada);
         cercania = similaridad(resultadoDeMTMutada);
+        System.out.println("Porcentaje de acierto: " + cercania);
+
+        //System.out.print(".");
 
         if (cercania > maxCercania) {
-        	System.out.println(cercania);
-        	System.out.println(resultadoDeMTMutada);
+          System.out.println("El máximo porcentaje de cercania es: " + cercania);
+          //System.out.println(resultadoDeMTMutada);
           maxCercania = cercania;
           mejorMaquina = mutada;
           cadenaResultante = resultadoDeMTMutada;
+          iteracionLogroMaximo = contadorIteraciones;
         }
+
+        System.out.println("Iteracion: " + contadorIteraciones);
+        contadorIteraciones++;
+      }
+
     } catch (FileNotFoundException ex) {
-        Logger.getLogger(FinalFundamentos.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(FinalFundamentos.class.getName()).log(Level.SEVERE, null, ex);
     }
+
+    System.out.println();
+    System.out.println("La mejor cinta lograda fue: " + cadenaResultante);
+    System.out.println("Se aproxima con un porcentaje de: " + maxCercania);
+    System.out.println("Se produjo en la iteracion: " + iteracionLogroMaximo);
   }
 }
