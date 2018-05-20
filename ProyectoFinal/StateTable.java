@@ -77,7 +77,8 @@ class StateTable {
      * @return
      */
     public String[] nextStep(char car, int state){
-        String[] fila = this.state[ state ];
+        String[] fila = this.state[ state ];;
+
         String[] res;
 
         if ( car=='0' ) {

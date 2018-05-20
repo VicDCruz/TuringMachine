@@ -38,6 +38,7 @@ class FinalFundamentos {
             break;
     //endIf
     }//endWhile
+
     /*
     *Se intenta cargar cadena desde archivo seleccionado.
     */
@@ -49,7 +50,7 @@ class FinalFundamentos {
         int BytesEnDatos=0;
         byte X;
         /*
-        *	Averigua el tama�o del archivo en bytes
+        *	Averigua el tamanio del archivo en bytes
         */
         while (true){
           Datos.seek(BytesEnDatos);
@@ -68,7 +69,7 @@ class FinalFundamentos {
         for (i=0;i<BytesEnDatos;i++){
           Datos.seek(i);
           Y=Datos.readByte();
-          T=Y;								// T <-- N�mero original
+          T=Y;								// T <-- Numero original
           Car="";
           for (int j=0;j<8;j++){
             if (Y%2==0) Car="0"+Car; else Car="1"+Car;
@@ -127,7 +128,7 @@ class FinalFundamentos {
   /**
   *Metodo para mutacion aleatoria de cadenas.
   **/
-  static String muta() {
+  static String muta(String maquinaAMutar) {
     String respuesta = "";
     int M = -1; //M representa el numero de bits a mutar (al menos uno)
     while (M < 1 | M >= 1024) M = (int)(Math.random()*1024);
@@ -135,7 +136,7 @@ class FinalFundamentos {
       int nBit=-1; while (nBit<0|nBit>=L) nBit=(int)(Math.random()*L); // BIT A MUTAR
       if (nBit==0) continue;	// NO MUTAR SI SOLO SON POSITIVOS
       String mBit="0";
-      String G = mejorMaquina;
+      String G = maquinaAMutar;
       // 1) SI EL BIT ESTA EN UN LUGAR INTERMEDIO
       if (nBit != 0 & nBit != 1024-1){
         if (G.substring(nBit,nBit+1).equals("0")) mBit="1";
@@ -175,6 +176,7 @@ class FinalFundamentos {
     try {
       generaMaquinaInicial();
       cargaCadenaMeta();
+      mutada = mejorMaquina;
 
       System.out.println("La cadena esperada es: " + cadenaMeta + "\n");
 
@@ -185,20 +187,27 @@ class FinalFundamentos {
         cintaDeCeros = cintaDeCeros + "0";
       }
 
+      ////////
+      //cadenaResultante = cintaDeCeros;
+      ////////
+
       int MAX_ITERACIONES = 10000;
       int contadorIteraciones = 1;
 
       while(cercania != 1 && contadorIteraciones <= MAX_ITERACIONES) {
         //System.out.print("."); //Para hacer ver al usuario que seguimos computando.
 
-        mutada = muta();
+        mutada = muta(mutada);
         //System.out.println(cintaDeCeros);
         //System.out.println(mutada);
         //System.out.println("Llego");
 
         //System.out.print(".");
 
+        //Prueba simulando con la mejor resultante en lugar de puros ceros.
         resultadoDeMTMutada = simulaMaquina(mutada,cintaDeCeros);
+        //resultadoDeMTMutada = simulaMaquina(mutada,cadenaResultante);
+
         System.out.println("Resultado a partir de MT mutada: " + resultadoDeMTMutada);
         cercania = similaridad(resultadoDeMTMutada);
         System.out.println("Porcentaje de acierto: " + cercania);
