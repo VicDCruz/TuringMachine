@@ -133,7 +133,8 @@ class FinalFundamentos {
     int M = -1; //M representa el numero de bits a mutar (al menos uno)
     while (M < 1 | M >= 1024) M = (int)(Math.random()*1024);
     for (int i=0; i<M; i++){
-      int nBit=-1; while (nBit<0|nBit>=L) nBit=(int)(Math.random()*L); // BIT A MUTAR
+      int nBit=-1; 
+      while (nBit<0|nBit>=1024) nBit=(int)(Math.random()*1024); // BIT A MUTAR
       if (nBit==0) continue;	// NO MUTAR SI SOLO SON POSITIVOS
       String mBit="0";
       String G = maquinaAMutar;
@@ -191,7 +192,7 @@ class FinalFundamentos {
       //cadenaResultante = cintaDeCeros;
       ////////
 
-      int MAX_ITERACIONES = 10000;
+      int MAX_ITERACIONES = 20000;
       int contadorIteraciones = 1;
 
       while(cercania != 1 && contadorIteraciones <= MAX_ITERACIONES) {
@@ -207,14 +208,14 @@ class FinalFundamentos {
         if(mutada.length()==1024){
             //Prueba simulando con la mejor resultante en lugar de puros ceros.
             resultadoDeMTMutada = simulaMaquina(mutada,cintaDeCeros);
-            System.out.println("Resultado a partir de MT mutada: " + resultadoDeMTMutada);
+            //System.out.println("Resultado a partir de MT mutada: " + resultadoDeMTMutada);
             //resultadoDeMTMutada = simulaMaquina(mutada,cadenaResultante);
             cadenaActual=resultadoDeMTMutada;
             cercania = similaridad(resultadoDeMTMutada);
-            System.out.println("Porcentaje de acierto: " + cercania);
+            //System.out.println("Porcentaje de acierto: " + cercania);
         }        
 
-        //System.out.print(".");
+        System.out.print(".");
 
         if (cercania > maxCercania) {
           System.out.println("El máximo porcentaje de cercania es: " + cercania);
@@ -223,9 +224,10 @@ class FinalFundamentos {
           mejorMaquina = mutada;
           cadenaResultante = cadenaActual;
           iteracionLogroMaximo = contadorIteraciones;
+          System.out.println("Iteracion: " + contadorIteraciones);
         }
 
-        System.out.println("Iteracion: " + contadorIteraciones);
+        //System.out.println("Iteracion: " + contadorIteraciones);
         contadorIteraciones++;
       }
 
