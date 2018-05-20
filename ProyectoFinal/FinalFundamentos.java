@@ -6,6 +6,7 @@ class FinalFundamentos {
   static String mejorMaquina = new String(); //Almacena la descripcion de la mejor MT que logra.
   static BufferedReader TF;
   static BufferedReader Kbr;
+  static RandomAccessFile Datos = null;
   static String cadenaResultante; //Almacana la producción de la mejor MT que logra.
   static String cadenaMeta = ""; //Cadena a la que se busca llegar.
   static int L;
@@ -16,51 +17,78 @@ class FinalFundamentos {
   static void cargaCadenaMeta() {
     Kbr=new BufferedReader(new InputStreamReader(System.in));
     String TTFN="";
+    String sResp="";
+    int i;
     System.out.println("Inserte el nombre de archivo y extension que contiene la cadena meta:");
     try {
       TTFN = Kbr.readLine().toUpperCase();
+      Datos=new RandomAccessFile(new File(TTFN), "r");
     } catch (Exception e) {
       System.out.println("No se encontro ese archivo.");
     }
+    String Car;
+    while (true){
+        System.out.println("Los datos estan en binario-ASCII? (S/N)");
+        try {
+          sResp=Kbr.readLine().toUpperCase();
+        } catch (Exception e) {
+          System.out.println("Error inesperado al recibir respuesta");
+        }
+        if (sResp.equals("S")||sResp.equals("N"))
+            break;
+    //endIf
+    }//endWhile
     /*
     *Se intenta cargar cadena desde archivo seleccionado.
     */
-    try {
-        TF = new BufferedReader(new InputStreamReader(new FileInputStream(new File(TTFN))));
-        System.out.println();
-        cadenaMeta = TF.readLine();
-        //break;
-    }//endTry
-    catch (Exception e1){
-        System.out.println("No se encontro \""+TTFN+"\"");
-        //continue;
-    }//endCatch
-
+   try {
+      if (sResp.equals("N")){
+        System.out.println("Deme el nombre del archivo de salida de imagen numerica:");
+        String FTarget=Kbr.readLine().toUpperCase();
+        PrintStream Fps=new PrintStream(new FileOutputStream(new File(FTarget)));
+        int BytesEnDatos=0;
+        byte X;
+        /*
+        *	Averigua el tama�o del archivo en bytes
+        */
+        while (true){
+          Datos.seek(BytesEnDatos);
+          try{X=Datos.readByte();}
+          catch (Exception e){break;}
+          BytesEnDatos++;
+        }//endWhile
+        Datos.close();
+        System.out.println("Se leyeron "+BytesEnDatos+" datos\n");
+        //
+        /*
+        *	Convierte en binario-ASCII
+        */
+        int Y,T;
+        Datos=new RandomAccessFile(new File(TTFN), "r");
+        for (i=0;i<BytesEnDatos;i++){
+          Datos.seek(i);
+          Y=Datos.readByte();
+          T=Y;								// T <-- N�mero original
+          Car="";
+          for (int j=0;j<8;j++){
+            if (Y%2==0) Car="0"+Car; else Car="1"+Car;
+            Y=Y/2;
+          } // endFor
+          cadenaMeta=cadenaMeta+Car;
+        }//endFor
+        Fps.printf(cadenaMeta);	// Escribe cada uno de los bytes leidos
+        Fps.println();
+      }else{
+        Datos.close();
+        BufferedReader FCinta;
+        FCinta=new BufferedReader(new InputStreamReader(new FileInputStream(new File(TTFN))));
+        cadenaMeta=FCinta.readLine();
+      }//endIf
+    } catch (Exception e) {
+      System.out.println("Error inesperado al recibir respuesta");
+    }
     L = cadenaMeta.length();
 
-    boolean FF;
-    String caracter;
-    int intCar;
-    /*
-    *Detectamos si el formato es valido.
-    */
-    for (int i=0; i<cadenaMeta.length(); i++){
-        caracter = cadenaMeta.substring(i,i+1);
-        //				System.out.println(i+") : "+Car);
-        try {
-          intCar = Integer.parseInt(caracter);
-          FF = false;
-        }
-        catch (Exception e){
-          FF = true;
-          intCar = -2; //Valor anormal para detectar error.
-        }
-        if ((intCar != 0 && intCar != 1) || FF){
-            System.out.println("Error en el formato de la cadena que se quiere generar.");
-            System.out.println("Deben ser solamente \"0\" o \"1\"");
-            break;	 	// Exit For
-        }//endIf
-    }//endFor
   }
 
   /**
@@ -157,7 +185,7 @@ class FinalFundamentos {
         cintaDeCeros = cintaDeCeros + "0";
       }
 
-      int MAX_ITERACIONES = 30000;
+      int MAX_ITERACIONES = 10000;
       int contadorIteraciones = 1;
 
       while(cercania != 1 && contadorIteraciones <= MAX_ITERACIONES) {
