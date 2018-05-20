@@ -171,7 +171,7 @@ class FinalFundamentos {
                         //respecto al resultado meta.
     double maxCercania = -1000;
     int iteracionLogroMaximo = -2;
-    String mutada, resultadoDeMTMutada, cintaDeCeros="";
+    String mutada, resultadoDeMTMutada, cintaDeCeros="", cadenaActual="";
 
     try {
       generaMaquinaInicial();
@@ -203,14 +203,16 @@ class FinalFundamentos {
         //System.out.println("Llego");
 
         //System.out.print(".");
-
-        //Prueba simulando con la mejor resultante en lugar de puros ceros.
-        resultadoDeMTMutada = simulaMaquina(mutada,cintaDeCeros);
-        //resultadoDeMTMutada = simulaMaquina(mutada,cadenaResultante);
-
-        System.out.println("Resultado a partir de MT mutada: " + resultadoDeMTMutada);
-        cercania = similaridad(resultadoDeMTMutada);
-        System.out.println("Porcentaje de acierto: " + cercania);
+        
+        if(mutada.length()==1024){
+            //Prueba simulando con la mejor resultante en lugar de puros ceros.
+            resultadoDeMTMutada = simulaMaquina(mutada,cintaDeCeros);
+            System.out.println("Resultado a partir de MT mutada: " + resultadoDeMTMutada);
+            //resultadoDeMTMutada = simulaMaquina(mutada,cadenaResultante);
+            cadenaActual=resultadoDeMTMutada;
+            cercania = similaridad(resultadoDeMTMutada);
+            System.out.println("Porcentaje de acierto: " + cercania);
+        }        
 
         //System.out.print(".");
 
@@ -219,7 +221,7 @@ class FinalFundamentos {
           //System.out.println(resultadoDeMTMutada);
           maxCercania = cercania;
           mejorMaquina = mutada;
-          cadenaResultante = resultadoDeMTMutada;
+          cadenaResultante = cadenaActual;
           iteracionLogroMaximo = contadorIteraciones;
         }
 
